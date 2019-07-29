@@ -16,15 +16,15 @@ class AutocompleteFilter(admin.SimpleListFilter):
     rel_model = None
     form_field = forms.ModelMultipleChoiceField
 
-    class Media:
-        js = (
-            'django-admin-autocomplete-filter/js/autocomplete_filter_qs.js',
-        )
-        css = {
-            'screen': (
-                'django-admin-autocomplete-filter/css/autocomplete-fix.css',
-            ),
-        }
+    # class Media:
+    #     js = (
+    #         'django-admin-autocomplete-filter/js/autocomplete_filter_qs.js',
+    #     )
+    #     css = {
+    #         'screen': (
+    #             'django-admin-autocomplete-filter/css/autocomplete-fix.css',
+    #         ),
+    #     }
 
     def __init__(self, request, params, model, model_admin):
         self.parameter_name = '{}__{}__in'.format(
@@ -45,18 +45,26 @@ class AutocompleteFilter(admin.SimpleListFilter):
             required=False,
         )
 
-        self._add_media(model_admin, widget)
+        form_class = type(
+            str('AutoCompleteFilterForm'),
+            (forms.BaseForm,),
+            {'base_fields': {f'{self.field_name}': field}}
+        )
+        form_class.media = self._get_media(model_admin, widget)
+        self.form = form_class()
+
+        # self._add_media(model_admin, widget)
 
         attrs = self.widget_attrs.copy()
         attrs['id'] = 'id-%s-dal-filter' % self.field_name
         if self.is_placeholder_title:
             # Upper case letter P as dirty hack for bypass django2 widget force placeholder value as empty string ("")
             attrs['data-Placeholder'] = self.title
-        self.rendered_widget = field.widget.render(
-            name=self.parameter_name,
-            value=self.value(),
-            attrs=attrs
-        )
+        # self.rendered_widget = field.widget.render(
+        #     name=self.parameter_name,
+        #     value=self.value(),
+        #     attrs=attrs
+        # )
 
     def get_queryset_for_field(self, model, name):
         field_desc = getattr(model, name)
@@ -72,29 +80,31 @@ class AutocompleteFilter(admin.SimpleListFilter):
         """Return the type of form field to be used."""
         return self.form_field
 
-    def _add_media(self, model_admin, widget):
-        if not hasattr(model_admin, 'Media'):
-            raise ImproperlyConfigured(
-                'Add empty Media class to %s. Sorry about this bug.' % model_admin)
+    @staticmethod
+    def _get_media(model_admin, widget):
+        #     if not hasattr(model_admin, 'Media'):
+        #         raise ImproperlyConfigured(
+        #             'Add empty Media class to %s. Sorry about this bug.' % model_admin)
+        # def _get_media(obj):
+        #     return Media(media=getattr(obj, 'Media', None))
 
-        def _get_media(obj):
-            return Media(media=getattr(obj, 'Media', None))
-
-        class FilterMedia:
-            js = (
-                'admin/js/jquery.init.js',
+        # class FilterMedia:
+        return Media(
+            js=(
+                # 'admin/js/jquery.init.js',
                 'django-admin-autocomplete-filter/js/autocomplete_filter_qs.js',
-            )
-            css = {
+            ),
+            css={
                 'screen': (
                     'django-admin-autocomplete-filter/css/autocomplete-fix.css',
                 ),
             }
+        )
 
-        media = _get_media(model_admin) + widget.media + Media(FilterMedia)
+        # return forms.Media(_get_media(model_admin) + widget.media + Media(FilterMedia))
 
-        for name in MEDIA_TYPES:
-            setattr(model_admin.Media, name, getattr(media, "_" + name))
+        # for name in MEDIA_TYPES:
+        #     setattr(model_admin.Media, name, getattr(media, "_" + name))
 
     def has_output(self):
         return True
