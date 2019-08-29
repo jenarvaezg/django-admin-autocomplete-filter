@@ -33,7 +33,7 @@ class AutocompleteFilter(admin.SimpleListFilter):
 
         if self.rel_model:
             model = self.rel_model
-            remote_field = model._meta.get_field(self.field_name).remote_field
+            remote_field = model._meta.get_field(self.field_name)
         else:
             remote_field = model._meta.get_field(self.field_name).remote_field
 
