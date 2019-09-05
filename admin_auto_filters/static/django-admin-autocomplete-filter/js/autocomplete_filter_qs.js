@@ -11,7 +11,7 @@ django.jQuery(document).ready(function () {
   //     }
   //   });
 
-  django.jQuery(".showall a").attr("href", window.location.href.replace('/q=&', '/all=&'))
+  django.jQuery("a.showall").attr("href", window.location.href.replace('/?q=&', '/?all=&'))
 
 });
 
