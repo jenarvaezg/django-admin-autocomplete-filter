@@ -16,6 +16,16 @@ class AutocompleteFilter(admin.SimpleListFilter):
     rel_model = None
     form_field = forms.ModelMultipleChoiceField
 
+    class Media:
+        js = (
+            'django-admin-autocomplete-filter/js/autocomplete_filter_qs.js',
+        )
+        css = {
+            'screen': (
+                'django-admin-autocomplete-filter/css/autocomplete-fix.css',
+            ),
+        }
+
     def __init__(self, request, params, model, model_admin):
         self.parameter_name = '{}__{}__in'.format(
             self.field_name, self.field_pk)
