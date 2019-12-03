@@ -11,13 +11,13 @@ django.jQuery(document).ready(function () {
 //   var new_search_hash = search_to_hash();
 //   new_search_hash[decodeURIComponent(name)] = [];
 //   new_search_hash[decodeURIComponent(name)].push(decodeURIComponent(value));
-//   return hash_to_search(new_search_hash);
-// }
-//
-// function search_add(name, value) {
-//   var new_search_hash = search_to_hash();
-//   if (!(decodeURIComponent(name) in new_search_hash)) {
-//     new_search_hash[decodeURIComponent(name)] = [];
+// //   return hash_to_search(new_search_hash);
+// // }
+// //
+// // function search_add(name, value) {
+// //   var new_search_hash = search_to_hash();
+// //   if (!(decodeURIComponent(name) in new_search_hash)) {
+// //     new_search_hash[decodeURIComponent(name)] = [];
 //   }
 //   new_search_hash[decodeURIComponent(name)].push(decodeURIComponent(value));
 //   return hash_to_search(new_search_hash);
