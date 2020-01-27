@@ -1,4 +1,4 @@
-from django.contrib.admin.widgets import AutocompleteSelect as Base
+from django.contrib.admin.widgets import AutocompleteSelectMultiple as Base
 from django import forms
 from django.contrib import admin
 from django.core.exceptions import ImproperlyConfigured
