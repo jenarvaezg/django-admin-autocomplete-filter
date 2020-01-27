@@ -1,17 +1,9 @@
 var jQuery = django.jQuery, $ = jQuery;
 django.jQuery(document).ready(function () {
-  // django.jQuery('#changelist-filter select').on(
-  //   'change',
-  //   function (e, choice) {
-  //     var val = $(e.target).val() || '';
-  //     var class_name = this.className;
-  //     var param = this.name;
-  //     if (class_name.includes('admin-autocomplete')) {
-  //       window.location.search = search_replace(param, val);
-  //     }
-  //   });
+
 
   django.jQuery("a.showall").attr("href", window.location.href.replace('/?q=&', '/?all=&'))
+
 
 });
 
@@ -19,13 +11,13 @@ django.jQuery(document).ready(function () {
 //   var new_search_hash = search_to_hash();
 //   new_search_hash[decodeURIComponent(name)] = [];
 //   new_search_hash[decodeURIComponent(name)].push(decodeURIComponent(value));
-//   return hash_to_search(new_search_hash);
-// }
-//
-// function search_add(name, value) {
-//   var new_search_hash = search_to_hash();
-//   if (!(decodeURIComponent(name) in new_search_hash)) {
-//     new_search_hash[decodeURIComponent(name)] = [];
+// //   return hash_to_search(new_search_hash);
+// // }
+// //
+// // function search_add(name, value) {
+// //   var new_search_hash = search_to_hash();
+// //   if (!(decodeURIComponent(name) in new_search_hash)) {
+// //     new_search_hash[decodeURIComponent(name)] = [];
 //   }
 //   new_search_hash[decodeURIComponent(name)].push(decodeURIComponent(value));
 //   return hash_to_search(new_search_hash);

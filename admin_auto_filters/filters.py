@@ -1,9 +1,18 @@
-from django.contrib.admin.widgets import AutocompleteSelectMultiple
+from django.contrib.admin.widgets import AutocompleteSelectMultiple as Base
 from django import forms
 from django.contrib import admin
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models.fields.related_descriptors import ReverseManyToOneDescriptor, ManyToManyDescriptor
 from django.forms.widgets import Media, MEDIA_TYPES
+
+
+class AutocompleteSelect(Base):
+    def __init__(self, rel, admin_site, attrs=None, choices=(), using=None, custom_url=None):
+        self.custom_url = custom_url
+        super().__init__(rel, admin_site, attrs, choices, using)
+
+    def get_url(self):
+        return self.custom_url if self.custom_url else super().get_url()
 
 
 class AutocompleteFilter(admin.SimpleListFilter):
@@ -37,8 +46,10 @@ class AutocompleteFilter(admin.SimpleListFilter):
         else:
             remote_field = model._meta.get_field(self.field_name).remote_field
 
-        widget = AutocompleteSelectMultiple(
-            remote_field, model_admin.admin_site)
+        widget = AutocompleteSelect(
+            remote_field, model_admin.admin_site,
+            custom_url=self.get_autocomplete_url(request, model_admin),
+        )
         form_field = self.get_form_field()
         field = form_field(
             queryset=self.get_queryset_for_field(model, self.field_name),
