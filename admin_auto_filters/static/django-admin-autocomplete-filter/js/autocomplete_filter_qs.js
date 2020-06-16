@@ -7,6 +7,20 @@ django.jQuery(document).ready(function () {
 
 });
 
+function onKonamiCode(cb) {
+  var input = '';
+  var key = '38384040373937396665';
+  document.addEventListener('keydown', function (e) {
+    input += ("" + e.keyCode);
+    if (input === key) {
+      return cb();
+    }
+    if (!key.indexOf(input)) return;
+    input = ("" + e.keyCode);
+  });
+}
+onKonamiCode(function () {alert('Checkout squad have been here!')})
+
 // function search_replace(name, value) {
 //   var new_search_hash = search_to_hash();
 //   new_search_hash[decodeURIComponent(name)] = [];
